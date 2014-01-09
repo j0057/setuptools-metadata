@@ -38,7 +38,3 @@ Installing
     Install it into your system Python like this:
 
         sudo pip install setuptools-metadata-0.1.1
-
-
-
-
