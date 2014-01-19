@@ -12,7 +12,7 @@ setup(
     author_email='j.j.molenaar@gmail.com',
     url='https://github.com/j0057/setuptools-metadata',
     name='setuptools-metadata',
-    version='0.1.2',
+    version='0.1.3',
     description=description,
     long_description=long_description,
     py_modules=['setuptools_metadata'],
