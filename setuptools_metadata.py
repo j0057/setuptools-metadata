@@ -9,6 +9,7 @@ import distutils.core
 
 # setup(
 #   ...
+#   version_command='git describe',
 #   custom_metadata={
 #       x_thing_1: ['a', 'b', 'c'],
 #       x_some_other_thing: 'bla',
@@ -58,12 +59,18 @@ def validate_dict(dist, attr, value):
         if not key.startswith('x_'):
             raise Exception('custom_metadata key {0!r} should start with x_', key)
 
-def get_git_version(filename):
-    # get version from git tag
+def execute_version_command(dist, attr, value):
+    filename = dist.metadata.name + '.egg-info/version.txt'
+    version = get_scm_version(filename, value)
+    dist.metadata.version = version
+
+def get_scm_version(filename, command):
+    # get version 
     try:
-        git_version = subprocess.check_output(['git', 'describe']).strip()
+        cmd = command.split()
+        scm_version = subprocess.check_output(cmd).strip()
     except:
-        git_version = None
+        scm_version = None
 
     # also get version from distname.egg-info/version.txt
     try:
@@ -73,11 +80,11 @@ def get_git_version(filename):
         cached_version = None
 
     # at least one of the two should succeed
-    if not (git_version or cached_version):
-        raise Exception('Could not find version from git describe or from {0}'.format(filename))
+    if not (scm_version or cached_version):
+        raise Exception('Could not find version from {0!r} or from {1}'.format(command, filename))
 
     # if the cached version is wrong
-    if git_version and (git_version != cached_version):
+    if scm_version and (scm_version != cached_version):
 
         # create directory if necessary
         dirname = os.path.dirname(filename)
@@ -86,9 +93,14 @@ def get_git_version(filename):
 
         # rewrite cached version
         with open(filename, 'w') as f:
-            f.write(git_version)
-        return git_version
+            f.write(scm_version)
+        return scm_version
 
     # there is only the cached version or it doesn't matter
     else:
         return cached_version
+
+# deprecated :-)
+def get_git_version(filename):
+    return get_scm_version(filename, 'git describe')
+
