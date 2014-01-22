@@ -12,16 +12,15 @@ setup(
     author_email='j.j.molenaar@gmail.com',
     url='https://github.com/j0057/setuptools-metadata',
     name='setuptools-metadata',
-    version='0.1.4',
+    version='0.1.5',
     description=description,
     long_description=long_description,
-    py_modules=['setuptools_metadata'],
+    packages=['setuptools_metadata'],
     entry_points={
         'distutils.commands': [
             'metadata = setuptools_metadata:metadata'
         ],
         'distutils.setup_keywords': [
-            'version_command = setuptools_metadata:execute_version_command',
             'custom_metadata = setuptools_metadata:validate_dict'
         ]
     })

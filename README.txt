@@ -1,5 +1,5 @@
 
-setuptools-metadata 0.1.2 - Adds metadata command to setup.py
+setuptools-metadata - Adds metadata command to setup.py
 
 Using custom_metadata in setup call
 
